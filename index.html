@@ -15,7 +15,7 @@ html,body{height:100%;overflow-x:hidden}
 body{
   background:var(--cream);font-family:'DM Sans',sans-serif;
   color:var(--dark);display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
+  align-items:center;justify-content:flex-start;
   min-height:100vh;padding:20px 16px;position:relative;
 }
 
@@ -50,7 +50,7 @@ canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:999}
 }
 
 /* ═══ PAGE 1 : ENVELOPPE ═══ */
-#page-intro{display:flex;flex-direction:column;align-items:center;text-align:center}
+#page-intro{display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;min-height:100vh}
 
 .envelope-container{
   position:relative;cursor:pointer;user-select:none;
@@ -115,7 +115,7 @@ canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:999}
 .intro-sub{font-size:13px;color:var(--dim);letter-spacing:0.06em;margin-top:8px}
 
 /* ═══ PAGE 2 : MESSAGE + VIDÉO ═══ */
-#page-message{display:none;flex-direction:column;align-items:center;width:100%;gap:14px}
+#page-message{display:none;flex-direction:column;align-items:center;width:100%;gap:14px;padding-top:20px}
 
 .letter-card{
   background:#fff;border-radius:20px;
@@ -242,17 +242,17 @@ canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:999}
       </div>
       <div class="letter-body" id="display-message">Maman…
 Quand on est petit, on croit que les mamans sont invincibles.
-On croit qu’elles savent tout faire.
-Qu’elles savent toujours quoi dire.
-Qu’elles ne pleurent jamais quand personne ne regarde.
+On croit qu'elles savent tout faire.
+Qu'elles savent toujours quoi dire.
+Qu'elles ne pleurent jamais quand personne ne regarde.
 Quand on est petit…
 on ne voit pas les sacrifices.
 On ne voit pas les nuits blanches.
 On ne voit pas la fatigue cachée derrière un sourire.
 On voit juste… une maman.
 
-Mais en grandissant, j’ai compris quelque chose.
-J’ai compris que derrière chaque assiette servie,
+Mais en grandissant, j'ai compris quelque chose.
+J'ai compris que derrière chaque assiette servie,
 il y avait parfois une journée difficile.
 Que derrière chaque « fais attention à toi »,
 il y avait une peur immense de me voir souffrir.
@@ -260,32 +260,32 @@ Et que derrière chaque « ça va aller »,
 il y avait une femme qui portait le poids du monde…
 sans jamais le montrer.
 
-Une mère, c’est étrange finalement.
-C’est une personne capable de se détruire en silence
-pour construire quelqu’un d’autre.
-Quelqu’un capable de passer après tout le monde…
-et malgré ça, continuer d’aimer plus fort que n’importe qui.
+Une mère, c'est étrange finalement.
+C'est une personne capable de se détruire en silence
+pour construire quelqu'un d'autre.
+Quelqu'un capable de passer après tout le monde…
+et malgré ça, continuer d'aimer plus fort que n'importe qui.
 
 Et le pire…
-c’est qu’on s’habitue à cet amour.
+c'est qu'on s'habitue à cet amour.
 On oublie de dire merci.
 On oublie de regarder cette femme autrement que comme « notre mère ».
-Alors qu’avant d’être maman…
-c’était aussi une enfant.
+Alors qu'avant d'être maman…
+c'était aussi une enfant.
 Une adolescente.
 Une femme avec des rêves, des peurs, une vie.
 Et pourtant… elle a choisi de donner une partie de cette vie pour nous.
 
-Alors aujourd’hui, je voulais juste prendre une minute…
+Alors aujourd'hui, je voulais juste prendre une minute…
 pour te regarder autrement.
 Pas seulement comme ma mère.
 Mais comme la femme la plus courageuse que je connaisse.
-Parce qu’au fond…
-les super-héros n’existent pas.
+Parce qu'au fond…
+les super-héros n'existent pas.
 Par contre… les mamans, oui.
-Et si un jour je deviens quelqu’un de bien…
+Et si un jour je deviens quelqu'un de bien…
 ce sera grâce à toi.
-Je t’aime maman.
+Je t'aime maman.
 Bonne fête des mères.</div>
       <div class="letter-footer">
         <div class="letter-date" id="display-date"></div>
