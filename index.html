@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bonne Fête Maman 💐</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --rose:#d4637a;--rose-light:#fbeef1;--gold:#b8944a;
+  --sage:#7a9e7e;--cream:#fdfaf6;--dark:#1a1008;--d²:#9a8272;
+}
+html,body{height:100%;overflow-x:hidden}
+body{
+  background:var(--cream);font-family:'DM Sans',sans-serif;
+  color:var(--dark);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  min-height:100vh;padding:20px 16px;position:relative;
+}
+
+/* Fond décoratif */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 500px 400px at 10% 30%,rgba(212,99,122,0.06) 0%,transparent 70%),
+    radial-gradient(ellipse 400px 400px at 90% 70%,rgba(184,148,74,0.06) 0%,transparent 70%),
+    radial-gradient(ellipse 300px 200px at 50% 90%,rgba(122,158,126,0.05) 0%,transparent 70%);
+  animation:bgBreath 10s ease-in-out infinite alternate;
+}
+@keyframes bgBreath{from{opacity:0.5}to{opacity:1}}
+
+/* Pétales flottants fond */
+.bg-petal{position:fixed;font-size:60px;opacity:0.05;pointer-events:none;animation:floatPetal 18s ease-in-out infinite}
+.bp1{top:5%;left:3%;animation-delay:0s;font-size:80px}
+.bp2{top:15%;right:5%;animation-delay:4s}
+.bp3{bottom:10%;left:8%;animation-delay:8s;font-size:70px}
+.bp4{bottom:20%;right:3%;animation-delay:2s}
+.bp5{top:50%;left:1%;animation-delay:6s;font-size:50px}
+.bp6{top:40%;right:1%;animation-delay:10s;font-size:50px}
+@keyframes floatPetal{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-20px) rotate(8deg)}}
+
+canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:999}
+
+/* Scène principale */
+.scene{
+  position:relative;z-index:1;
+  width:min(480px,100%);
+  display:flex;flex-direction:column;align-items:center;
+}
+
+/* ═══ PAGE 1 : ENVELOPPE ═══ */
+#page-intro{display:flex;flex-direction:column;align-items:center;text-align:center}
+
+.envelope-container{
+  position:relative;cursor:pointer;user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  margin-bottom:36px;
+}
+.envelope{
+  width:220px;height:145px;
+  background:linear-gradient(160deg,#f7ead8,#ede0c4);
+  border-radius:6px;
+  border:1px solid rgba(184,148,74,0.35);
+  position:relative;overflow:visible;
+  transition:transform 0.35s cubic-bezier(.34,1.56,.64,1),box-shadow 0.35s;
+  box-shadow:0 6px 30px rgba(184,148,74,0.18);
+}
+.envelope:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 12px 40px rgba(184,148,74,0.28)}
+.env-flap{
+  position:absolute;top:0;left:0;
+  width:0;height:0;
+  border-left:110px solid transparent;
+  border-right:110px solid transparent;
+  border-top:72px solid #e4d3b5;
+  z-index:3;
+}
+.env-seal{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:46px;height:46px;border-radius:50%;
+  background:linear-gradient(135deg,var(--rose),#b8405a);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;z-index:4;
+  box-shadow:0 3px 12px rgba(212,99,122,0.35);
+  transition:transform 0.3s;
+}
+.envelope:hover .env-seal{transform:translate(-50%,-50%) scale(1.12)}
+.env-bottom-left{
+  position:absolute;bottom:0;left:0;
+  width:0;height:0;
+  border-bottom:73px solid #ddd0ba;
+  border-right:110px solid transparent;
+}
+.env-bottom-right{
+  position:absolute;bottom:0;right:0;
+  width:0;height:0;
+  border-bottom:73px solid #d5c9b4;
+  border-left:110px solid transparent;
+}
+
+.tap-hint{
+  font-size:11px;color:var(--dim);
+  letter-spacing:0.25em;text-transform:uppercase;
+  margin-top:12px;animation:fadePulse 2.2s ease-in-out infinite;
+}
+@keyframes fadePulse{0%,100%{opacity:0.4}50%{opacity:1}}
+
+.intro-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.2rem,11vw,3.2rem);
+  font-weight:400;line-height:1.1;
+  color:var(--dark);margin-bottom:6px;
+}
+.intro-title em{font-style:italic;color:var(--rose)}
+.intro-sub{font-size:13px;color:var(--dim);letter-spacing:0.06em;margin-top:8px}
+
+/* ═══ PAGE 2 : MESSAGE + VIDÉO ═══ */
+#page-message{display:none;flex-direction:column;align-items:center;width:100%;gap:14px}
+
+.letter-card{
+  background:#fff;border-radius:20px;
+  border:1px solid rgba(184,148,74,0.2);
+  padding:clamp(24px,6vw,40px) clamp(20px,6vw,36px);
+  width:100%;position:relative;overflow:hidden;
+  box-shadow:0 4px 40px rgba(0,0,0,0.07);
+  animation:riseUp 0.65s cubic-bezier(.22,1,.36,1) forwards;
+}
+@keyframes riseUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+/* Coin décoratif */
+.letter-card::after{
+  content:'🌸';
+  position:absolute;top:-16px;right:-16px;
+  font-size:80px;opacity:0.05;
+  transform:rotate(25deg);pointer-events:none;
+}
+
+.letter-header{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:20px;padding-bottom:16px;
+  border-bottom:1px solid rgba(184,148,74,0.12);
+}
+.letter-avatar{
+  width:46px;height:46px;border-radius:50%;
+  background:linear-gradient(135deg,#fbeef1,#f9d0da);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;flex-shrink:0;
+}
+.letter-meta-from{font-size:11px;color:var(--dim);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:3px}
+.letter-meta-name{font-size:15px;font-weight:500;color:var(--dark)}
+
+.letter-body{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(16px,4.5vw,19px);
+  line-height:1.85;color:#2d1f10;
+  white-space:pre-line;
+}
+
+.letter-footer{
+  margin-top:22px;display:flex;
+  justify-content:space-between;align-items:flex-end;
+}
+.letter-date{font-size:11px;color:var(--dim);letter-spacing:0.06em}
+.letter-sig{
+  font-family:'Cormorant Garamond',serif;
+  font-size:19px;font-style:italic;
+  color:var(--rose);
+}
+
+/* VIDÉO */
+.video-section{width:100%;animation:riseUp 0.65s cubic-bezier(.22,1,.36,1) 0.15s both;display:none}
+.video-label-top{font-size:11px;color:var(--dim);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:8px;padding-left:2px}
+.video-wrap{background:#fff;border-radius:16px;border:1px solid rgba(212,99,122,0.2);overflow:hidden;position:relative;width:100%;aspect-ratio:16/9}
+.video-section video{width:100%;height:100%;border-radius:14px;object-fit:cover;display:block}
+
+/* BOUTONS D'ACTION */
+.actions{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:8px;width:100%;
+  margin-top:24px;
+  animation:riseUp 0.65s cubic-bezier(.22,1,.36,1) 0.25s both;
+}
+.action-btn{
+  padding:13px 6px;border-radius:14px;
+  border:1px solid rgba(212,99,122,0.2);
+  background:rgba(212,99,122,0.03);
+  color:var(--dark);font-family:'DM Sans',sans-serif;
+  font-size:11px;cursor:pointer;
+  transition:all 0.22s;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  user-select:none;-webkit-tap-highlight-color:transparent;
+}
+.action-btn:hover{
+  background:var(--rose-light);border-color:var(--rose);
+  transform:translateY(-3px);
+}
+.action-btn:active{transform:scale(0.95)}
+.action-btn .a-ico{font-size:clamp(18px,5vw,22px);line-height:1}
+.action-btn .a-lbl{color:var(--dim);letter-spacing:0.1em;text-transform:uppercase;font-size:10px}
+
+
+</style>
+</head>
+<body>
+
+<!-- Pétales de fond -->
+<div class="bg-petal bp1">🌸</div>
+<div class="bg-petal bp2">🌷</div>
+<div class="bg-petal bp3">💐</div>
+<div class="bg-petal bp4">🌺</div>
+<div class="bg-petal bp5">🌸</div>
+<div class="bg-petal bp6">🌷</div>
+
+<canvas id="fx"></canvas>
+
+<div class="scene">
+
+  <!-- PAGE 1 : INTRO -->
+  <div id="page-intro">
+    <div class="envelope-container" onclick="openEnvelope()">
+      <div class="envelope">
+        <div class="env-flap"></div>
+        <div class="env-seal">💐</div>
+        <div class="env-bottom-left"></div>
+        <div class="env-bottom-right"></div>
+      </div>
+    </div>
+    <h1 class="intro-title">Bonne fête<br>des <em>Mères</em></h1>
+    <p class="intro-sub">Une lettre t'attends ✉️</p>
+    <p class="tap-hint" style="margin-top:18px">Clique pour ouvrir</p>
+  </div>
+
+  <!-- PAGE 2 : MESSAGE -->
+  <div id="page-message">
+    <div class="letter-card">
+      <div class="letter-header">
+        <div class="letter-avatar">💐</div>
+        <div>
+          <div class="letter-meta-from">Un message de</div>
+          <div class="letter-meta-name" id="display-from">Raphaël</div>
+        </div>
+      </div>
+      <div class="letter-body" id="display-message">Maman…
+Quand on est petit, on croit que les mamans sont invincibles.
+On croit qu’elles savent tout faire.
+Qu’elles savent toujours quoi dire.
+Qu’elles ne pleurent jamais quand personne ne regarde.
+Quand on est petit…
+on ne voit pas les sacrifices.
+On ne voit pas les nuits blanches.
+On ne voit pas la fatigue cachée derrière un sourire.
+On voit juste… une maman.
+
+Mais en grandissant, j’ai compris quelque chose.
+J’ai compris que derrière chaque assiette servie,
+il y avait parfois une journée difficile.
+Que derrière chaque « fais attention à toi »,
+il y avait une peur immense de me voir souffrir.
+Et que derrière chaque « ça va aller »,
+il y avait une femme qui portait le poids du monde…
+sans jamais le montrer.
+
+Une mère, c’est étrange finalement.
+C’est une personne capable de se détruire en silence
+pour construire quelqu’un d’autre.
+Quelqu’un capable de passer après tout le monde…
+et malgré ça, continuer d’aimer plus fort que n’importe qui.
+
+Et le pire…
+c’est qu’on s’habitue à cet amour.
+On oublie de dire merci.
+On oublie de regarder cette femme autrement que comme « notre mère ».
+Alors qu’avant d’être maman…
+c’était aussi une enfant.
+Une adolescente.
+Une femme avec des rêves, des peurs, une vie.
+Et pourtant… elle a choisi de donner une partie de cette vie pour nous.
+
+Alors aujourd’hui, je voulais juste prendre une minute…
+pour te regarder autrement.
+Pas seulement comme ma mère.
+Mais comme la femme la plus courageuse que je connaisse.
+Parce qu’au fond…
+les super-héros n’existent pas.
+Par contre… les mamans, oui.
+Et si un jour je deviens quelqu’un de bien…
+ce sera grâce à toi.
+Je t’aime maman.
+Bonne fête des mères.</div>
+      <div class="letter-footer">
+        <div class="letter-date" id="display-date"></div>
+        <div class="letter-sig" id="display-sig">avec tout mon amour ♡</div>
+      </div>
+    </div>
+
+   <!-- VIDÉO -->
+  <div class="video-section" id="video-section">
+    <div class="video-label-top">🎬 Ta vidéo</div>
+
+    <video id="mom-video" controls playsinline>
+      <source src="Vidéo fête des mères maman.mp4" type="video/mp4">
+      Ton navigateur ne supporte pas la vidéo.
+    </video>
+  </div>
+
+    <!-- ACTIONS -->
+    <div class="actions">
+      <button class="action-btn" onclick="triggerConfetti()">
+        <span class="a-ico">🎊</span><span class="a-lbl">Fête</span>
+      </button>
+      <button class="action-btn" onclick="triggerHearts()">
+        <span class="a-ico">💖</span><span class="a-lbl">Amour</span>
+      </button>
+      <button class="action-btn" onclick="triggerPetals()">
+        <span class="a-ico">🌸</span><span class="a-lbl">Pétales</span>
+      </button>
+
+    </div>
+  </div>
+
+
+
+</div>
+
+<script>
+/* ── Canvas particles ── */
+const canvas=document.getElementById('fx');
+const ctx=canvas.getContext('2d');
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+window.addEventListener('load',()=>{
+  window.scrollTo({top:0,left:0,behavior:'instant'});
+});
+
+let particles=[],animId=null;
+const COLORS=['#d4637a','#b8944a','#7a9e7e','#f4a0b0','#fad4dc','#e8a0b0','#c9a84c'];
+
+class Particle{
+  constructor({x,y,vx,vy,size,color,shape,gravity,fade,spin,emoji}){
+    this.x=x;this.y=y;this.vx=vx;this.vy=vy;this.size=size;
+    this.color=color||'#d4637a';this.shape=shape||'circle';
+    this.gravity=gravity||0.18;this.fade=fade||0.013;
+    this.spin=spin||0;this.emoji=emoji||null;
+    this.life=1;this.angle=Math.random()*Math.PI*2;
+  }
+  update(){
+    this.x+=this.vx;this.y+=this.vy;this.vy+=this.gravity;
+    this.vx*=0.99;this.life-=this.fade;this.angle+=this.spin;
+    ctx.save();ctx.globalAlpha=Math.max(0,this.life);
+    ctx.translate(this.x,this.y);ctx.rotate(this.angle);
+    if(this.emoji){
+      ctx.font=`${this.size*2}px serif`;
+      ctx.fillText(this.emoji,-this.size*0.6,this.size*0.6);
+    }else if(this.shape==='rect'){
+      ctx.fillStyle=this.color;
+      ctx.fillRect(-this.size/2,-this.size/2,this.size,this.size*0.45);
+    }else{
+      ctx.fillStyle=this.color;ctx.beginPath();
+      ctx.arc(0,0,this.size,0,Math.PI*2);ctx.fill();
+    }
+    ctx.restore();
+  }
+}
+
+function loop(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles=particles.filter(p=>p.life>0);
+  particles.forEach(p=>p.update());
+  if(particles.length)animId=requestAnimationFrame(loop);else animId=null;
+}
+function startLoop(){if(!animId)animId=requestAnimationFrame(loop)}
+
+function triggerConfetti(){
+  const cx=canvas.width/2,cy=canvas.height*0.35;
+  for(let i=0;i<150;i++){
+    const a=Math.random()*Math.PI*2,s=3+Math.random()*8;
+    particles.push(new Particle({x:cx,y:cy,vx:Math.cos(a)*s,vy:Math.sin(a)*s-4,
+      size:4+Math.random()*6,color:COLORS[Math.floor(Math.random()*COLORS.length)],
+      shape:Math.random()>0.4?'rect':'circle',gravity:0.22,fade:0.007,spin:(Math.random()-0.5)*0.4}));
+  }
+  startLoop();
+}
+function triggerHearts(){
+  const cx=canvas.width/2,cy=canvas.height*0.75;
+  const em=['💕','💖','🌹','💗','🧡','💛','🌸','💝'];
+  for(let i=0;i<38;i++){
+    particles.push(new Particle({x:cx+(Math.random()-0.5)*180,y:cy,
+      vx:(Math.random()-0.5)*3.5,vy:-(3+Math.random()*5.5),
+      size:10+Math.random()*12,emoji:em[Math.floor(Math.random()*em.length)],
+      gravity:-0.04,fade:0.008,spin:(Math.random()-0.5)*0.08}));
+  }
+  startLoop();
+}
+function triggerPetals(){
+  const em=['🌸','🌷','🌺','🪷','💐'];
+  for(let i=0;i<45;i++){
+    particles.push(new Particle({x:Math.random()*canvas.width,y:-30,
+      vx:(Math.random()-0.5)*2.5,vy:1.5+Math.random()*3,
+      size:9+Math.random()*11,emoji:em[Math.floor(Math.random()*em.length)],
+      gravity:0.02,fade:0.004,spin:(Math.random()-0.5)*0.12}));
+  }
+  startLoop();
+}
+
+/* ── Enveloppe ── */
+let opened=false;
+function openEnvelope(){
+  if(opened)return;
+  opened=true;
+  triggerPetals();
+  const intro=document.getElementById('page-intro');
+  intro.style.transition='opacity 0.5s ease,transform 0.5s ease';
+  intro.style.opacity='0';intro.style.transform='scale(0.94)';
+  setTimeout(()=>{
+    intro.style.display='none';
+    const msg=document.getElementById('page-message');
+    msg.style.display='flex';
+    document.getElementById('video-section').style.display='block';
+    window.scrollTo({top:0,left:0,behavior:'instant'});
+    const d=new Date();
+    document.getElementById('display-date').textContent=
+      d.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+    setTimeout(triggerConfetti,500);
+    setTimeout(triggerHearts,900);
+  },500);
+}
+
+
+</script>
+</body>
+</html>
